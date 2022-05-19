@@ -7,11 +7,13 @@ class Application:
     res = 1000, 500
 
     # color palette
-    BG = 245, 245, 245
-    C1 = 224, 243, 219
-    C2 = 168, 221, 181
-    C3 = 67, 162, 202
-    COLORS = [C1, C2, C3]
+    BG = 211, 211, 211
+    C1 = 240, 249, 232
+    C2 = 186, 228, 188
+    C3 = 123, 204, 196
+    C4 = 67, 162, 202
+    C5 = 8, 104, 172
+    COLORS = [C1, C2, C3, C4, C5]
 
     def __init__(self, res):
         self.width = res[0]
@@ -44,7 +46,7 @@ class Application:
             bar_height = round((self.height - top_padding) / (self.max - self.min))
             x = begin + i * bar_width
             y = self.height - (val * bar_height)
-            bar_color = self.COLORS[i % 3]
+            bar_color = self.COLORS[i % 5]
 
             # draw data
             pygame.draw.rect(window, bar_color, (x, y, bar_width, self.height))
