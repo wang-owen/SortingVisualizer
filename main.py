@@ -3,92 +3,76 @@ import sys, pygame, random
 pygame.init()
 
 
-class SortingVisualizer:
-    GRAY = 128, 128, 128
-    C1 = 255, 225, 148
-    C2 = 163, 207, 167
-    C3 = 247, 220, 236
+class Application:
+    res = 1000, 500
 
-    BG = GRAY
-    GRADIENT = [C1, C2, C3]
+    # color palette
+    BG = 245, 245, 245
+    C1 = 224, 243, 219
+    C2 = 168, 221, 181
+    C3 = 67, 162, 202
+    COLORS = [C1, C2, C3]
 
-    def __init__(self, width, height, data):
-        self.width = width
-        self.height = height
-        self.set_data(data)
+    def __init__(self, res):
+        self.width = res[0]
+        self.height = res[1]
 
-        self.window = pygame.display.set_mode((width, height), pygame.RESIZABLE)
-        pygame.display.set_caption("Sorting Visualizer")
+    def generate_data(self, n, min, max):
+        data = []
+        for _ in range(n):
+            data.append(random.randint(min, max))
+        return data
 
-    def set_data(self, data):
-        self.side_padding = 75
-        self.top_padding = 100
+    def init_data(self, data):
+        side_padding = 5 * (self.width / len(data))
+        top_padding = self.height / 5
+        begin = side_padding
 
-        self.data = data
-        self.max = max(data)
         self.min = min(data)
-        self.bar_width = round((self.width - self.side_padding * 2) / len(data))
-        self.bar_height = round(
-            (self.height - self.top_padding) / (self.max - self.min)
-        )
-        self.first_bar = round(self.side_padding)
+        self.max = max(data)
+        bar_width = (self.width - side_padding * 2) // len(data)
+        max_bar_height = self.height - top_padding
 
+        # initialize window
+        window = pygame.display.set_mode(self.res)
+        pygame.display.set_caption("Sorting Visualizer")
+        window.fill(self.BG)
+        pygame.display.update()
 
-def generate_data(n, max, min):
-    data = []
-    for _ in range(n):
-        data.append(random.randint(min, max))
+        # iterate through data and determine coordinates
+        for i, val in enumerate(data):
+            bar_height = round((self.height - top_padding) / (self.max - self.min))
+            x = begin + i * bar_width
+            y = self.height - (val * bar_height)
+            bar_color = self.COLORS[i % 3]
 
-    return data
-
-
-def blit(app):
-    app.window.fill(app.BG)
-    blit_data(app)
-    pygame.display.flip()
-
-
-def blit_data(app):
-    data = app.data
-    BLACK = 0, 0, 0
-    # iterate through data list
-    for i, val in enumerate(data):
-        # determine which x and y coordinates to draw bar
-        x = app.first_bar + i * app.bar_width
-        y = app.height - (val * app.bar_height)
-        # determine bar color
-        color = app.GRADIENT[i % 3]
-
-        pygame.draw.rect(app.window, color, (x, y, app.bar_width, app.height))
-
-        # bar borders WIP
-        # pygame.draw.line(app.window, BLACK, (x, y), (x, app.height), 1)
-        # pygame.draw.line(app.window, BLACK, (x, y), (x, app.bar_width), 1)
+            # draw data
+            pygame.draw.rect(window, bar_color, (x, y, bar_width, self.height))
+            # bar borders (WIP)
+            # pygame.draw.line(window, BLACK)
 
 
 def main():
     run = True
-    clock = pygame.time.Clock()
-    res = width, height = 1000, 1000
+    res = 1000, 500
 
     n = 100
-    max = 100
     min = 0
+    max = 100
 
-    data = generate_data(n, max, min)
-    app = SortingVisualizer(width, height, data)
+    app = Application(res)
+    data = app.generate_data(n, min, max)
+    app.init_data(data)
 
+    # main loop
     while run:
-        clock.tick(60)
-        blit(app)
-        pygame.display.flip()
+        pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_r:
-                    data = generate_data(n, max, min)
-                    app.set_data(data)
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
+                data = app.generate_data(n, min, max)
+                app.init_data(data)
 
     pygame.quit()
     sys.exit()
