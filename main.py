@@ -17,6 +17,9 @@ class SortingVisualizer:
         self.height = height
         self.set_data(data)
 
+        self.window = pygame.display.set_mode((width, height), pygame.RESIZABLE)
+        pygame.display.set_caption("Sorting Visualizer")
+
     def set_data(self, data):
         self.side_padding = 75
         self.top_padding = 100
@@ -67,9 +70,6 @@ def main():
     run = True
     clock = pygame.time.Clock()
     res = width, height = 1000, 1000
-
-    pygame.display.set_mode(res, pygame.RESIZABLE)
-    pygame.display.set_caption("Sorting Visualizer")
 
     n = 100
     max = 100
