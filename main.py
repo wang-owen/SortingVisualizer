@@ -5,20 +5,17 @@ pygame.init()
 
 class SortingVisualizer:
     GRAY = 128, 128, 128
-    c1 = 255, 225, 148
-    c2 = 163, 207, 167
-    c3 = 247, 220, 236
+    C1 = 255, 225, 148
+    C2 = 163, 207, 167
+    C3 = 247, 220, 236
 
     BG = GRAY
-    GRADIENT = [c1, c2, c3]
+    GRADIENT = [C1, C2, C3]
 
     def __init__(self, width, height, data):
         self.width = width
         self.height = height
         self.set_data(data)
-
-        self.window = pygame.display.set_mode((width, height), pygame.RESIZABLE)
-        pygame.display.set_caption("Sorting Visualizer")
 
     def set_data(self, data):
         self.side_padding = 75
