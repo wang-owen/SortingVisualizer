@@ -53,6 +53,35 @@ class Application:
             # bar borders (WIP)
             # pygame.draw.line(window, BLACK)
 
+    def bubble_sort(self, data):
+        for i in range(len(data)):
+            for j in range(len(data) - i - 1):
+                if data[j] > data[i]:
+                    data[j], data[j + 1] = data[j + 1], data[j]
+                    # redraw chart
+                    yield data
+
+    def selection_sort(self, data):
+        for i in range(len(data)):
+            min = i
+            for j in range(i + 1, len(data)):
+                if data[min] > data[j]:
+                    min = j
+            data[i], data[min] = data[min], data[i]
+            # redraw chart
+            yield data
+
+    def insertion_sort(self, data):
+        for i in range(1, len(data)):
+            key = data[i]
+            temp = i - 1
+            while temp >= 0 and key < data[temp]:
+                data[temp + 1] = data[temp]
+                temp -= 1
+                # redraw chart
+                yield data
+            data[temp + 1] = key
+
 
 def main():
     run = True
@@ -72,9 +101,12 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
-                data = app.generate_data(n, min, max)
-                app.init_data(data)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    data = app.generate_data(n, min, max)
+                    app.init_data(data)
+                elif event.key == pygame.K_SPACE:
+                    app.init_data(app.bubble_sort(data))
 
     pygame.quit()
     sys.exit()
