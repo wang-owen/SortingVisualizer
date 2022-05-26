@@ -25,7 +25,7 @@ class Application:
         return data
 
     def init_data(self, data):
-        side_padding = 5 * (self.width / len(data))
+        side_padding = 100
         top_padding = self.height / 5
         begin = side_padding
 
@@ -106,7 +106,7 @@ def main():
     res = 1600, 900
     BG = 211, 211, 211
 
-    window = pygame.display.set_mode(res, pygame.RESIZABLE)
+    window = pygame.display.set_mode(res, pygame.FULLSCREEN)
     pygame.display.set_caption("Sorting Visualizer")
     window.fill(BG)
 
