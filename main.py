@@ -106,7 +106,7 @@ def main():
     res = 1600, 900
     BG = 211, 211, 211
 
-    window = pygame.display.set_mode(res, pygame.FULLSCREEN)
+    window = pygame.display.set_mode(res, pygame.RESIZABLE)
     pygame.display.set_caption("Sorting Visualizer")
     window.fill(BG)
 
